@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 
 import {
+  MatPaginatorModule,
   MatAutocompleteModule,
   MatButtonModule,
   MatButtonToggleModule,
@@ -37,6 +38,7 @@ import {
 @NgModule({
   declarations: [],
   imports: [
+    MatPaginatorModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
@@ -68,6 +70,7 @@ import {
     MatSortModule,
   ],
   exports: [
+    MatPaginatorModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,

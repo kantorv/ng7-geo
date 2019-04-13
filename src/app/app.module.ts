@@ -15,7 +15,7 @@ import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { NotFoundComponent } from './error-pages/not-found/not-found.component';
 import { ServerErrorComponent } from './error-pages/server-error/server-error.component';
-
+import {   ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -34,6 +34,7 @@ import { ServerErrorComponent } from './error-pages/server-error/server-error.co
     MaterialImportsModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     FlexLayoutModule
   ],
   providers: [],
