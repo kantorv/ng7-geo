@@ -16,9 +16,13 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 import { NotFoundComponent } from './error-pages/not-found/not-found.component';
 import { ServerErrorComponent } from './error-pages/server-error/server-error.component';
 import {   ReactiveFormsModule } from '@angular/forms';
+import { TimeStampPipe }  from './pipes/ts.pipe';
+import { SafePipe }  from './pipes/safe.pipe';
 
 @NgModule({
   declarations: [
+    TimeStampPipe,
+    SafePipe,
     AppComponent,
     LayoutComponent,
     HomeComponent,
