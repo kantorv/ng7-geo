@@ -1,50 +1,70 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Validators, FormBuilder, FormGroup} from '@angular/forms';
-import { filter, debounceTime, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-import { Form } from '../form.model';
+import { Component, OnInit ,AfterViewInit,  ChangeDetectionStrategy, ViewChild , Input} from '@angular/core';
+import { MatTableDataSource, MatSort , MatPaginator } from '@angular/material';
+import stations from '../../../assets/data/stations.json' ;
+import { Station } from '../../_interface/station.model';
+import {MapEventsService} from '../map-events.service';
 
 @Component({
   selector: 'app-stations-list',
   templateUrl: './stations-list.component.html',
   styleUrls: ['./stations-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class StationsListComponent implements OnInit {
-  form = this.fb.group({
-    autosave: false,
-    username: ['', [Validators.required]],
-    password: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    description: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(1000)
-      ]
-    ],
-    requestGift: [''],
-    birthday: ['', [Validators.required]],
-    rating: [0, Validators.required]
-  });
+export class StationsListComponent implements OnInit, AfterViewInit {
 
-  formValueChanges$: Observable<Form>;
+
+  stationsList: Station[] = stations;
+  mapEvensSubscribtion:any;
+  public displayedColumns = ['code', 'total', 'voted', 'approved','rejected'];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  @Input()
+  public dataSource = new MatTableDataSource<Station>();
+
+  @Input()
+  public param1:string = "param1 defau value"
 
   constructor(
-    private fb: FormBuilder,
-
+        private mes:MapEventsService
   ) {
 
   }
 
   ngOnInit() {
-    this.formValueChanges$ = this.form.valueChanges.pipe(
-      debounceTime(500),
-      filter((form: Form) => form.autosave)
-    )
+    this.dataSource.data = [];
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+
+    this.mapEvensSubscribtion = this.mes.sendMessageTrigger.subscribe((data) => {
+      console.log('mes.sendMessageTrigger received', data);
+      if(data.action == "city_select"){
+          console.log("StationsListComponent.mapEvensSubscribtion city_select called", data.payload)
+        this.processCitySelect(data.payload)
+
+      }
+    });
+
+
+  }
+
+  ngAfterViewInit() {
+
+    //  console.log(this.stationsList)
+  }
+
+
+  private processCitySelect(payload:any){
+      let id = Number(payload.id) ;
+      let name  = payload.el.properties.name;
+
+      let selectedStations = this.stationsList.filter( (item) => item.city==id )
+      this.dataSource.data = selectedStations;
+      console.log("StationsListComponentץmapEvensSubscribtion.processCitySelect",selectedStations )
+
   }
 
 }

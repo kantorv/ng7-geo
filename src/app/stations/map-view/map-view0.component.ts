@@ -1,4 +1,4 @@
-import { Component, OnInit,  OnDestroy, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, Input } from '@angular/core';
 import {MapEventsService} from '../map-events.service';
 
 declare var L: any;
@@ -11,7 +11,7 @@ declare var L: any;
 
 
 
-export class MapViewComponent implements OnInit, OnDestroy {
+export class MapViewComponent implements OnInit,AfterViewInit, OnDestroy {
     @ViewChild("map")
     public mapElement: ElementRef;
 
